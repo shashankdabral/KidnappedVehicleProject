@@ -86,7 +86,7 @@ int main()
 			//cout <<"Particle 10 prior to prediction: x = "<<pf.particles[10].x;
 			//cout <<"y = " <<pf.particles[10].y<<"theta = "<<pf.particles[10].theta;
 			pf.prediction(delta_t, sigma_pos, previous_velocity, previous_yawrate);
-			//cout <<"Prediction Completed !" <<endl;
+			cout <<"Prediction Completed !" ;
 			//cout <<"Particle 10 after prediction: x = "<<pf.particles[10].x;
 			//cout <<"y = " <<pf.particles[10].y<<"theta = "<<pf.particles[10].theta<<endl;
 		  }
@@ -120,8 +120,11 @@ int main()
         	}
 
 		  // Update the weights and resample
+	          cout <<" : Calling Update weights !" <<endl;
 		  pf.updateWeights(sensor_range, sigma_landmark, noisy_observations, map);
+	          cout <<"Update weights completed, calling resample !" <<endl;
 		  pf.resample();
+		  cout <<"Resample completed" <<end;
 
 		  // Calculate and output the average weighted error of the particle filter over all time steps so far.
 		  vector<Particle> particles = pf.particles;
