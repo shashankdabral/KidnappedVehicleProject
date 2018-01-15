@@ -195,10 +195,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
           cout << "Particle number = " << i<<endl; 
           cout << "Predicted size = " << predicted.size()<<endl; 
 	  cout << "################################################################" <<endl;
-            for (int cnt=0;cnt<predicted.size();cnt++) {
-	      cout << "Id of predicted = "<<predicted[cnt].id<<endl;
-	    }
+          for (int cnt=0;cnt<predicted.size();cnt++) {
+	    cout << "Id of predicted = "<<predicted[cnt].id<<endl;
 	  }
+	 
 	  #endif
           // Step-3: Update associations, in this step each observation/transformed observation is
 	  // mapped to a landmark
