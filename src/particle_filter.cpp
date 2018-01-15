@@ -186,7 +186,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	      predicted.push_back(map_t);
 	    }
 	    if (i==0) { //for the 0th particle only print for debug
-	      cout <<"ID of landmarks =" << map_landmarks.landmark_list[cnt].id_i<<endl
+	      cout <<"ID of landmarks =" << map_landmarks.landmark_list[cnt].id_i<<endl;
 	    }
 	  } // for cnt (map landmarks)
 
