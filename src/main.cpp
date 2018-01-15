@@ -75,7 +75,7 @@ int main()
 			
 			pf.init(sense_x, sense_y, sense_theta, sigma_pos);
 			cout <<"Initialization completed !" <<endl;
-			cout <<"Weight of 10th particle = "<<pf.weights[10]<<"and" <<pf.particles[10].weight<<endl;
+			cout <<"Weight of 10th particle = "<<pf.particles[10].weight<<endl;
 		  }
 		  else {
 			// Predict the vehicle's next state from previous (noiseless control) data.
@@ -88,7 +88,7 @@ int main()
 			pf.prediction(delta_t, sigma_pos, previous_velocity, previous_yawrate);
 			cout <<"Prediction Completed !" <<endl;
 			cout <<"Particle 10 after prediction: x = "<<pf.particles[10].x;
-			cout <<"y = " <<pf.particles[10].y<<"theta = "<<pf.particles[10].theta;
+			cout <<"y = " <<pf.particles[10].y<<"theta = "<<pf.particles[10].theta<<endl;
 		  }
 
 		  // receive noisy observation data from the simulator

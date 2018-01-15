@@ -215,10 +215,12 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	    particle_weight = particle_weight * weight_i;
           }
 	  particles[i].weight = particle_weight;
-          
+
 	  /* We also want to store the weights as a separate top level vector */
           weights.push_back(particle_weight);
 	} // for i
+        cout <<"Weight of 10th particle after update = " << particles[i].weight<<endl;
+        cout <<"Weights of 10th particle (global) after update = " << weights[10]<<endl;
 }
 
 void ParticleFilter::resample() {
