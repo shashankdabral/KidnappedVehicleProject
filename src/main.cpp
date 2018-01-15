@@ -124,7 +124,7 @@ int main()
 		  pf.updateWeights(sensor_range, sigma_landmark, noisy_observations, map);
 	          cout <<"Update weights completed, calling resample !" <<endl;
 		  pf.resample();
-		  cout <<"Resample completed" <<end;
+		  cout <<"Resample completed" <<endl;
 
 		  // Calculate and output the average weighted error of the particle filter over all time steps so far.
 		  vector<Particle> particles = pf.particles;
