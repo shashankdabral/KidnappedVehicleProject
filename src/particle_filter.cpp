@@ -217,27 +217,40 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	  cout << "Step-3 Completed for particle = "<<i<<endl;
 
 	  double particle_weight = 1.0;
-	  cout << "    Step4: Num observ = "<<observations_transf.size()<<endl;
+	  if (i==0) 
+	    cout << "    Step4: Num observ = "<<observations_transf.size()<<endl;
+          double sig_x,sig_y;
+	  sig_x = std_landmark[0];
+	  sig_y = std_landmark[1];
 	  // Step-4: Update weight
 	  for (int cnt=0;cnt<observations_transf.size();cnt++) { // Iterate through all observations_trans and update wt
+	    if (i==0)
+              cout << "For count = "<<cnt;
+
 	    double weight_i; //Weight of the ith observation
-            double sig_x,sig_y;
 	    double x_obs,y_obs;
 	    double mu_x,mu_y;
 	    int    map_id; /* Which landmark (from predicted) is the observation associated to */
-	    sig_x = std_landmark[0];
-	    sig_y = std_landmark[1];
 	    x_obs  = observations_transf[cnt].x;
 	    y_obs  = observations_transf[cnt].y;
 	    map_id = observations_transf[cnt].id;
 	    mu_x   = predicted[map_id].x;
 	    mu_y   = predicted[map_id].y;
 	    double gauss_norm = 1.0/(2* M_PI * sig_x *sig_y);
+	    if (i==0)
+	      cout << "   "<< "gauss_norm = " << gauss_norm;
 
 	    double exponent   = (pow((x_obs - mu_x),2)/ (2 * sig_x * sig_x)) + (pow((y_obs - mu_y),2)/ (2 * sig_y * sig_y));
+	    if (i==0)
+	      cout << "   " << "exponent = " << exponent;
+
 	    weight_i = gauss_norm * pow(2.71828,-1*exponent);
+
+	    if (i==0)
+	      cout <<"   "<< "weight_i " << weight_i;
 	    particle_weight = particle_weight * weight_i;
-	    cout << "For count = "<<cnt<<"particle_weight ="<<particle_weight<<endl;
+	    if (i==0)
+	      cout <<"   "<< "particle_weight ="<<particle_weight<<endl;
           }
 	  particles[i].weight = particle_weight;
 
