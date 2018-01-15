@@ -26,7 +26,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// Add random Gaussian noise to each particle.
 	// NOTE: Consult particle_filter.h for more information about this method (and others in this file).
 	
-	num_particles = 100;
+	num_particles = 10;
         default_random_engine gen;	
 	double sigma_x,sigma_y,sigma_theta;
 	sigma_x = std[0];
@@ -185,10 +185,21 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	      id ++; // Increment id for next entry
 	      predicted.push_back(map_t);
 	    }
+	    if (i==0) { //for the 0th particle only print for debug
+	      cout <<"ID of landmarks =" << map_landmarks.landmark_list[cnt].id_i<<endl
+	    }
 	  } // for cnt (map landmarks)
 
 	  // TODO #ME : Make sure to print id of predicted and see that its the same as index
-
+          #if 1
+          cout << "Particle number = " << i<<endl; 
+          cout << "Predicted size = " << predicted.size()<<endl; 
+	  cout << "################################################################" <<endl;
+            for (int cnt=0;cnt<predicted.size();cnt++) {
+	      cout << "Id of predicted = "<<predicted[cnt].id<<endl;
+	    }
+	  }
+	  #endif
           // Step-3: Update associations, in this step each observation/transformed observation is
 	  // mapped to a landmark
           dataAssociation (predicted,observations_transf); 
@@ -219,8 +230,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	  /* We also want to store the weights as a separate top level vector */
           weights.push_back(particle_weight);
 	} // for i
-        cout <<"Weight of 10th particle after update = " << particles[10].weight<<endl;
-        cout <<"Weights of 10th particle (global) after update = " << weights[10]<<endl;
+        cout <<"Weight of nth particle after update = " << particles[0].weight<<endl;
+        cout <<"Weights of nth particle (global) after update = " << weights[0]<<endl;
 }
 
 void ParticleFilter::resample() {
