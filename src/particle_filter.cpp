@@ -206,8 +206,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	    x_obs  = observations_transf[cnt].x;
 	    y_obs  = observations_transf[cnt].y;
 	    map_id = observations_transf[cnt].id;
-	    mu_x   = predicted[id].x;
-	    mu_y   = predicted[id].y;
+	    mu_x   = predicted[map_id].x;
+	    mu_y   = predicted[map_id].y;
 	    double gauss_norm = 1.0/(2* M_PI * sig_x *sig_y);
 
 	    double exponent   = (pow((x_obs - mu_x),2)/ (2 * sig_x * sig_x)) + (pow((y_obs - mu_y),2)/ (2 * sig_y * sig_y));
@@ -219,7 +219,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	  /* We also want to store the weights as a separate top level vector */
           weights.push_back(particle_weight);
 	} // for i
-        cout <<"Weight of 10th particle after update = " << particles[i].weight<<endl;
+        cout <<"Weight of 10th particle after update = " << particles[10].weight<<endl;
         cout <<"Weights of 10th particle (global) after update = " << weights[10]<<endl;
 }
 
