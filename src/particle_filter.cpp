@@ -26,7 +26,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// Add random Gaussian noise to each particle.
 	// NOTE: Consult particle_filter.h for more information about this method (and others in this file).
 	
-	num_particles = 10;
+	num_particles = 100;
         default_random_engine gen;	
 	double sigma_x,sigma_y,sigma_theta;
 	sigma_x = std[0];
@@ -67,9 +67,9 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	
 	// Create distribution with Zero Mean
 	// These are later added to final x/y/theta
-	normal_distribution<double> dist_x(0, sigma_x);
-	normal_distribution<double> dist_y(0, sigma_y);
-	normal_distribution<double> dist_theta(0, sigma_theta);
+//	normal_distribution<double> dist_x(0, sigma_x);
+//	normal_distribution<double> dist_y(0, sigma_y);
+//      normal_distribution<double> dist_theta(0, sigma_theta);
 
 	for (int i=0;i<num_particles;i++) {
 	  double current_x,current_y,current_theta;
@@ -85,9 +85,13 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	  particles[i].y = current_y + (vel_by_yr * ( cos(current_theta ) - cos(current_theta + yr_dt)));
 	  particles[i].theta = current_theta + yr_dt;
 
-	  particles[i].x += dist_x(gen);
-	  particles[i].y += dist_y(gen);
-	  particles[i].theta += dist_theta(gen);
+  	  normal_distribution<double> dist_x(particles[i].x, sigma_x);
+    	  normal_distribution<double> dist_y(particles[i].y, sigma_y);
+          normal_distribution<double> dist_theta(particles[i].theta, sigma_theta);
+
+	  particles[i].x = dist_x(gen);
+	  particles[i].y = dist_y(gen);
+	  particles[i].theta = dist_theta(gen);
 
 	  while (particles[i].theta > M_PI) {
 	    particles[i].theta -= 2*M_PI;
