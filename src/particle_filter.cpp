@@ -189,13 +189,15 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	      id ++; // Increment id for next entry
 	      predicted.push_back(map_t);
 	    }
+            #if 0
 	    if (i==0) { //for the 0th particle only print for debug
 	      cout <<"ID of landmarks =" << map_landmarks.landmark_list[cnt].id_i<<endl;
 	    }
+            #endif
 	  } // for cnt (map landmarks)
 
 	  // TODO #ME : Make sure to print id of predicted and see that its the same as index
-          #if 1
+          #if 0
           cout << "Particle number = " << i<<endl; 
           cout << "Predicted size = " << predicted.size()<<endl; 
 	  cout << "Observations size = " << observations.size()<<endl;
@@ -235,8 +237,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	  /* We also want to store the weights as a separate top level vector */
           weights.push_back(particle_weight);
 	} // for i
+        #if 0
         cout <<"Weight of nth particle after update = " << particles[0].weight<<endl;
         cout <<"Weights of nth particle (global) after update = " << weights[0]<<endl;
+        #endif
 }
 
 void ParticleFilter::resample() {
