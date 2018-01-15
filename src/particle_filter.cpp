@@ -26,7 +26,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// Add random Gaussian noise to each particle.
 	// NOTE: Consult particle_filter.h for more information about this method (and others in this file).
 	
-	num_particles = 100;
+	num_particles = 30;
         default_random_engine gen;	
 	double sigma_x,sigma_y,sigma_theta;
 	sigma_x = std[0];
@@ -172,6 +172,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	    observations_transf.push_back(obs_t);
 	  } // for cnt (Observations)
 
+	  cout << "Step-1 Completed for particle = "<<i<<endl;
+
           // Step-2: Make a landmark list depending on sensor range and distance from particle
 	  // Iterate through the map, caculate distance of landmark from particle and if the
 	  // distance is within sensor range, add the landmark to the predicted list
@@ -196,6 +198,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	    }
             #endif
 	  } // for cnt (map landmarks)
+	  cout << "Step-2 Completed for particle = "<<i<<endl;
 
 	  // TODO #ME : Make sure to print id of predicted and see that its the same as index
           #if 0
@@ -211,6 +214,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
           // Step-3: Update associations, in this step each observation/transformed observation is
 	  // mapped to a landmark
           dataAssociation (predicted,observations_transf); 
+	  cout << "Step-3 Completed for particle = "<<i<<endl;
 
 	  double particle_weight = 1.0;
 	  // Step-4: Update weight
@@ -237,6 +241,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
 	  /* We also want to store the weights as a separate top level vector */
           weights.push_back(particle_weight);
+	  cout << "Step-4 Completed for particle = "<<i<<endl;
+
 	} // for i
         #if 0
         cout <<"Weight of nth particle after update = " << particles[0].weight<<endl;
