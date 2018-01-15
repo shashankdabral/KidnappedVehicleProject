@@ -93,13 +93,14 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	  particles[i].y = dist_y(gen);
 	  particles[i].theta = dist_theta(gen);
 
+          #if 0
 	  while (particles[i].theta > M_PI) {
 	    particles[i].theta -= 2*M_PI;
 	  }
 	  while (particles[i].theta < -1*M_PI) {
 	    particles[i].theta += 2*M_PI;
 	  } //while
-	   
+	  #endif
         
 	} //i
 }
