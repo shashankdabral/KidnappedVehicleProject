@@ -14,6 +14,7 @@
 #include <sstream>
 #include <string>
 #include <iterator>
+#include <map>
 
 #include "particle_filter.h"
 
@@ -60,9 +61,9 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	// http://www.cplusplus.com/reference/random/default_random_engine/
         default_random_engine gen;	
 	double sigma_x,sigma_y,sigma_theta;
-	sigma_x = std[0];
-	sigma_y = std[1];
-	sigma_theta = std[2];
+	sigma_x = std_pos[0];
+	sigma_y = std_pos[1];
+	sigma_theta = std_pos[2];
 	
 	// Create distribution with Zero Mean
 	// These are later added to final x/y/theta
@@ -73,7 +74,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	for (int i=0;i<num_particles;i++) {
 	  double current_x,current_y,current_theta;
 	  double yr_dt;
-	  dobule vel_by_yr;
+	  double vel_by_yr;
 	  current_x = particles[i].x;
 	  current_y = particles[i].y;
 	  current_theta = particles[i].theta;
@@ -116,7 +117,7 @@ void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::ve
 	    dist_calc =  dist (observations[i].x,observations[i].y,predicted[cnt].x,predicted[cnt].y);
 	    if (dist_calc < minimum_distance) {
 	      /* Set new min distance and store id in observations */ 
-	      minimum_distance = dist; 
+	      minimum_distance = dist_cal; 
 	      observations[i].id = predicted[cnt].id;
 	    }
 	  } // for cnt (predicted)
@@ -171,14 +172,14 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	  // distance is within sensor range, add the landmark to the predicted list
 	  vector<LandmarkObs> predicted;
 	  int id =0;
-          for (int cnt=0;cnt<map_landmarks.size();cnt++) {
+          for (int cnt=0;cnt<map_landmarks.landmark_list.size();cnt++) {
 	    double dist_map_particle;
 	    LandmarkObs map_t; /* Temp for filtering landmarks */
 	    /* Create id's in ascending order from 0, so later we can reference them with that id */
 	    //map_t.id = map_landmarks[cnt].id_i;
 	    map_t.id = id;
-	    map_t.x  = map_landmarks[cnt].x_f;
-	    map_t.y  = map_landmarks[cnt].y_f;
+	    map_t.x  = map_landmarks.landmark_list[cnt].x_f;
+	    map_t.y  = map_landmarks.landmark_list[cnt].y_f;
 	    dist_map_particle = dist(map_t.x,map_t.y,part_x,part_y);
 	    if (dist_map_particle < sensor_range) {
 	      id ++; // Increment id for next entry
