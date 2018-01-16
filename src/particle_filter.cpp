@@ -79,11 +79,18 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	  current_y = particles[i].y;
 	  current_theta = particles[i].theta;
 	  yr_dt = yaw_rate * delta_t;
-	  vel_by_yr = velocity/yaw_rate;
+	  if (abs(yaw_rate) < 1e-10) { // 0 yaw rate 
+	    particles[i].x = current_x + (velocity * delta_t * cos(current_theta));
+	    particles[i].y = current_y + (velocity * delta_t * sin(current_theta));
+	    particles[i].theta = current_theta ;
+	  } else {
+	    vel_by_yr = velocity/yaw_rate;
+	    particles[i].x = current_x + (vel_by_yr * ( sin(current_theta + yr_dt)  - sin(current_theta)));
+	    particles[i].y = current_y + (vel_by_yr * ( cos(current_theta ) - cos(current_theta + yr_dt)));
+	    particles[i].theta = current_theta + yr_dt;
+	  }
 
-	  particles[i].x = current_x + (vel_by_yr * ( sin(current_theta + yr_dt)  - sin(current_theta)));
-	  particles[i].y = current_y + (vel_by_yr * ( cos(current_theta ) - cos(current_theta + yr_dt)));
-	  particles[i].theta = current_theta + yr_dt;
+
 	  if (i==0) {
 	    cout << "old_x = "<<current_x << "  new_x= "<<particles[i].x<<endl; 
           }
