@@ -179,7 +179,6 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	    observations_transf.push_back(obs_t);
 	  } // for cnt (Observations)
 
-	  //cout << "Step-1 Completed for particle = "<<i<<endl;
 
           // Step-2: Make a landmark list depending on sensor range and distance from particle
 	  // Iterate through the map, caculate distance of landmark from particle and if the
@@ -199,45 +198,19 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	      id ++; // Increment id for next entry
 	      predicted.push_back(map_t);
 	    }
-            #if 0
-	    if (i==0) { //for the 0th particle only print for debug
-	      cout <<"ID of landmarks =" << map_landmarks.landmark_list[cnt].id_i<<endl;
-	    }
-            #endif
-	  } // for cnt (map landmarks)
-	  //cout << "Step-2 Completed for particle = "<<i<<endl;
 
-	  // TODO #ME : Make sure to print id of predicted and see that its the same as index
-          #if 0
-          cout << "Particle number = " << i<<endl; 
-          cout << "Predicted size = " << predicted.size()<<endl; 
-	  cout << "Observations size = " << observations.size()<<endl;
-	  cout << "################################################################" <<endl;
-          for (int cnt=0;cnt<predicted.size();cnt++) {
-	    cout << "Id of predicted = "<<predicted[cnt].id<<endl;
-	  }
-	 
-	  #endif
+	  } // for cnt (map landmarks)
+          
           // Step-3: Update associations, in this step each observation/transformed observation is
 	  // mapped to a landmark
           dataAssociation (predicted,observations_transf); 
-	  cout << "Step-3 Completed for particle = "<<i<<endl;
 
 	  double particle_weight = 1.0;
           double sig_x,sig_y;
 	  sig_x = std_landmark[0];
 	  sig_y = std_landmark[1];
-	  //sig_x = 0.3;
-	  //sig_y = 0.3;
-	  if (i==0) { 
-	    cout << "    Step4: Num observ = "<<observations_transf.size()<<endl;
-	    cout << "    Entering for loop for i =0 " <<endl;
-	  }
 	  // Step-4: Update weight
 	  for (int cnt=0;cnt<observations_transf.size();cnt=cnt+1) { // Iterate through all observations_trans and update wt
-	    if (i==0) {
-              cout << "i= 0 & For count = "<<cnt;
-	    }
 
 	    double weight_i; //Weight of the ith observation
 	    double x_obs,y_obs;
@@ -249,32 +222,19 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	    mu_x   = predicted[map_id].x;
 	    mu_y   = predicted[map_id].y;
 	    double gauss_norm = 1.0/(2* M_PI * sig_x *sig_y);
-	    if (i==0)
-	      cout << "   "<< "gauss_norm = " << gauss_norm;
 
 	    double exponent   = (pow((x_obs - mu_x),2)/ (2 * sig_x * sig_x)) + (pow((y_obs - mu_y),2)/ (2 * sig_y * sig_y));
-	    if (i==0)
-	      cout << "   " << "exponent = " << exponent;
 
 	    weight_i = gauss_norm * pow(2.71828,-1*exponent);
 
-	    if (i==0)
-	      cout <<"   "<< "weight_i " << weight_i;
 	    particle_weight = particle_weight * weight_i;
-	    if (i==0)
-	      cout <<"   "<< "particle_weight ="<<particle_weight<<endl;
           } // for cnt
 	  particles[i].weight = particle_weight;
 
 	  /* We also want to store the weights as a separate top level vector */
           weights.push_back(particle_weight);
-	  cout << "Step-4 Completed for particle = "<<i<<endl;
 
 	} // for i
-        #if 0
-        cout <<"Weight of nth particle after update = " << particles[0].weight<<endl;
-        cout <<"Weights of nth particle (global) after update = " << weights[0]<<endl;
-        #endif
 }
 
 void ParticleFilter::resample() {
