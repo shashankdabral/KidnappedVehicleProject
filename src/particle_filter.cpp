@@ -220,12 +220,15 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
           double sig_x,sig_y;
 	  sig_x = std_landmark[0];
 	  sig_y = std_landmark[1];
-	  if (i==0) 
+	  if (i==0) { 
 	    cout << "    Step4: Num observ = "<<observations_transf.size()<<endl;
+	    cout << "    Entering for loop for i =0 " <<endl;
+	  }
 	  // Step-4: Update weight
 	  for (int cnt=0;cnt<observations_transf.size();cnt++) { // Iterate through all observations_trans and update wt
-	    if (i==0)
-              cout << "For count = "<<cnt;
+	    if (i==0) {
+              cout << "i= 0 & For count = "<<cnt;
+	    }
 
 	    double weight_i; //Weight of the ith observation
 	    double x_obs,y_obs;
