@@ -91,9 +91,6 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	  }
 
 
-	  if (i==0) {
-	    cout << "old_x = "<<current_x << "  new_x= "<<particles[i].x<<endl; 
-          }
 
   	  normal_distribution<double> dist_x(particles[i].x, sigma_x);
     	  normal_distribution<double> dist_y(particles[i].y, sigma_y);
@@ -188,17 +185,9 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	      }
 	    } // for map_id 
 
-	    //cout << "Step-2 Completed for particle = "<<i<<endl;
-            #if 0
-            if (i==0) {
-	      cout <<"sel_id = "<<sel_id<<endl;
-	    }
-            #endif
-
 	 
             // Step-3: Update associations, in this step each observation/transformed observation is
 	    // mapped to a landmark
-	    //cout << "Step-3 Completed for particle = "<<i<<endl;
 
 
 
@@ -213,31 +202,14 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
 	    particle_weight = particle_weight * weight_i;
 
-            #if 0
-	    if (i==0) {
-	      cout <<"x_part" << x_part<<"  y_part= " <<y_part<<endl;
-	      cout <<"theta =" << theta<<"  x_obs = " <<x_obs << " " << "y_obs ="<<y_obs<<" x_obs_t = "<<obs_t.x<<" y_obs_t= "<< obs_t.y<<endl;
-              
-	      cout << "mu_x ="<< mu_x <<" mu_y = "<<mu_y << " gauss_norm ="<<gauss_norm<< " exponent = "<<exponent << "  " << "weight_i = "<<weight_i<<endl;
-	      cout <<"   "<< "particle_weight ="<<particle_weight<<endl;
-	    }
-            #endif
 
           } // for cnt (observations)
 	  particles[i].weight = particle_weight;
 
 	  /* We also want to store the weights as a separate top level vector */
           weights.push_back(particle_weight);
-	  if (i==0) {
-	    cout << "Step-4 Completed for particle = "<<i<<endl;
-	    cout << "Particle Weight = "<<particle_weight<<endl;
-	  }
 
 	} // for i
-        #if 0
-        cout <<"Weight of nth particle after update = " << particles[0].weight<<endl;
-        cout <<"Weights of nth particle (global) after update = " << weights[0]<<endl;
-        #endif
 }
 
 void ParticleFilter::resample() {
