@@ -223,6 +223,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	    particle_weight = particle_weight * weight_i;
 
 	    if (i==0) {
+	      cout <<" x_obs = " <<x_obs << " "<< "mu_x ="<< mu_x <<"y_obs ="<<y_obs<<" mu_y = "<<mu_y<<endl;
 	      cout <<"   "<< "gauss_norm ="<<gauss_norm<<"  "<< "exponent = "<<exponent << "  " << "weight_i = "<<weight_i<<endl;
 	      cout <<"   "<< "particle_weight ="<<particle_weight<<endl;
 	    }
