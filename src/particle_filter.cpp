@@ -222,16 +222,19 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
 	    particle_weight = particle_weight * weight_i;
 
-	    //if (i==0)
-	    //  cout <<"   "<< "particle_weight ="<<particle_weight<<endl;
+	    if (i==0) {
+	      cout <<"   "<< "particle_weight ="<<particle_weight<<endl;
+	    }
 
           } // for cnt (observations)
 	  particles[i].weight = particle_weight;
 
 	  /* We also want to store the weights as a separate top level vector */
           weights.push_back(particle_weight);
-	  cout << "Step-4 Completed for particle = "<<i<<endl;
-	  cout << "Particle Weight = "<<particle_weight<<endl;
+	  if (i==0) {
+	    cout << "Step-4 Completed for particle = "<<i<<endl;
+	    cout << "Particle Weight = "<<particle_weight<<endl;
+	  }
 
 	} // for i
         #if 0
