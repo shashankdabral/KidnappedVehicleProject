@@ -205,7 +205,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	 
             // Step-3: Update associations, in this step each observation/transformed observation is
 	    // mapped to a landmark
-	    cout << "Step-3 Completed for particle = "<<i<<endl;
+	    //cout << "Step-3 Completed for particle = "<<i<<endl;
 
 
 
@@ -231,6 +231,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	  /* We also want to store the weights as a separate top level vector */
           weights.push_back(particle_weight);
 	  cout << "Step-4 Completed for particle = "<<i<<endl;
+	  cout << "Particle Weight = "<<particle_weight<<endl;
 
 	} // for i
         #if 0
