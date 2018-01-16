@@ -185,6 +185,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	    int id =0;
 	    /* For debug, I ll use all landmark objects instead of filtered */
 	    double minimum_distance = 1000.0;
+	    int    sel_id = 0;
 	    double mu_x, mu_y;
             for (int map_id=0;map_id <map_landmarks.landmark_list.size();map_id++) {
 
@@ -196,11 +197,14 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	        minimum_distance = dist_calc;
 		mu_x =map_landmarks.landmark_list[map_id].x_f; 
 		mu_y =map_landmarks.landmark_list[map_id].y_f; 
+		sel_id = map_id;
 	      }
 	    } // for map_id 
 
 	    //cout << "Step-2 Completed for particle = "<<i<<endl;
-
+            if (i==0) {
+	      cout <<"sel_id = "<<sel_id<<endl;
+	    }
 
 	 
             // Step-3: Update associations, in this step each observation/transformed observation is
@@ -221,7 +225,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	    particle_weight = particle_weight * weight_i;
 
 	    if (i==0) {
-	      cout <<"theta" << theta<<"  x_obs = " <<x_obs << " " << "y_obs ="<<y_obs<<"x_obs_t"<<obs_t.x<<"y_obs_t"<< obs_t.y<<endl;
+	      cout <<"theta =" << theta<<"  x_obs = " <<x_obs << " " << "y_obs ="<<y_obs<<" x_obs_t = "<<obs_t.x<<" y_obs_t= "<< obs_t.y<<endl;
               
 	      cout << "mu_x ="<< mu_x <<" mu_y = "<<mu_y << " gauss_norm ="<<gauss_norm<< " exponent = "<<exponent << "  " << "weight_i = "<<weight_i<<endl;
 	      cout <<"   "<< "particle_weight ="<<particle_weight<<endl;
