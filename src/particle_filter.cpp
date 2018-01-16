@@ -84,6 +84,9 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	  particles[i].x = current_x + (vel_by_yr * ( sin(current_theta + yr_dt)  - sin(current_theta)));
 	  particles[i].y = current_y + (vel_by_yr * ( cos(current_theta ) - cos(current_theta + yr_dt)));
 	  particles[i].theta = current_theta + yr_dt;
+	  if (i==0) {
+	    cout << "old_x = "<<current_x << "  new_x= "<<particles[i].x<<endl; 
+          }
 
   	  normal_distribution<double> dist_x(particles[i].x, sigma_x);
     	  normal_distribution<double> dist_y(particles[i].y, sigma_y);
@@ -105,30 +108,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	} //i
 }
 
-void ParticleFilter::dataAssociation(std::vector<LandmarkObs> predicted, std::vector<LandmarkObs>& observations) {
-	// TODO: Find the predicted measurement that is closest to each observed measurement and assign the 
-	//   observed measurement to this particular landmark.
-	// NOTE: this method will NOT be called by the grading code. But you will probably find it useful to 
-	//   implement this method and use it as a helper during the updateWeights phase.
-	
-	// Steps  : For all observations, iterate through all map positions (predicted)
-	// Find the minimum distance across all landmarks (map positions)
-	// Update id of obersvation 
 
-	for (int i=0;i<observations.size();i++) {
-	  double minimum_distance = 10000.0;
-	  for (int cnt =0;cnt<predicted.size();cnt++) {
-	    double dist_calc; // Distance between the observation and map
-	    dist_calc =  dist (observations[i].x,observations[i].y,predicted[cnt].x,predicted[cnt].y);
-	    if (dist_calc < minimum_distance) {
-	      /* Set new min distance and store id in observations */ 
-	      minimum_distance = dist_calc; 
-	      observations[i].id = predicted[cnt].id;
-	    }
-	  } // for cnt (predicted)
-	
-	} // for i
-}
 
 void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], 
 		const std::vector<LandmarkObs> &observations, const Map &map_landmarks) {
@@ -202,9 +182,11 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	    } // for map_id 
 
 	    //cout << "Step-2 Completed for particle = "<<i<<endl;
+            #if 0
             if (i==0) {
 	      cout <<"sel_id = "<<sel_id<<endl;
 	    }
+            #endif
 
 	 
             // Step-3: Update associations, in this step each observation/transformed observation is
@@ -224,6 +206,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
 	    particle_weight = particle_weight * weight_i;
 
+            #if 0
 	    if (i==0) {
 	      cout <<"x_part" << x_part<<"  y_part= " <<y_part<<endl;
 	      cout <<"theta =" << theta<<"  x_obs = " <<x_obs << " " << "y_obs ="<<y_obs<<" x_obs_t = "<<obs_t.x<<" y_obs_t= "<< obs_t.y<<endl;
@@ -231,6 +214,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	      cout << "mu_x ="<< mu_x <<" mu_y = "<<mu_y << " gauss_norm ="<<gauss_norm<< " exponent = "<<exponent << "  " << "weight_i = "<<weight_i<<endl;
 	      cout <<"   "<< "particle_weight ="<<particle_weight<<endl;
 	    }
+            #endif
 
           } // for cnt (observations)
 	  particles[i].weight = particle_weight;
