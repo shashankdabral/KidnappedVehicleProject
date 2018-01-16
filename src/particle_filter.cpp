@@ -188,7 +188,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	    double mu_x, mu_y;
             for (int map_id=0;map_id <map_landmarks.landmark_list.size();map_id++) {
 
-	      single_landmark_s map_t; /* Temp for filtering landmarks */
+              Map::single_landmark_s map_t; /* Temp for filtering landmarks */
               map_t = map_landmarks.landmark_list[map_id];
 	      double dist_calc; // Distance between the observation and map
 	      dist_calc = dist(obs_t.x,obs_t.y,map_t.x_f,map_t.y_f);
