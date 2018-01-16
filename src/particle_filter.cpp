@@ -218,14 +218,16 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
 	  double particle_weight = 1.0;
           double sig_x,sig_y;
-	  sig_x = std_landmark[0];
-	  sig_y = std_landmark[1];
+	  //sig_x = std_landmark[0];
+	  //sig_y = std_landmark[1];
+	  sig_x = 0.3;
+	  sig_y = 0.3;
 	  if (i==0) { 
 	    cout << "    Step4: Num observ = "<<observations_transf.size()<<endl;
 	    cout << "    Entering for loop for i =0 " <<endl;
 	  }
 	  // Step-4: Update weight
-	  for (int cnt=0;cnt<observations_transf.size();cnt++) { // Iterate through all observations_trans and update wt
+	  for (int cnt=0;cnt<observations_transf.size();cnt=cnt+1) { // Iterate through all observations_trans and update wt
 	    if (i==0) {
               cout << "i= 0 & For count = "<<cnt;
 	    }
@@ -254,7 +256,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	    particle_weight = particle_weight * weight_i;
 	    if (i==0)
 	      cout <<"   "<< "particle_weight ="<<particle_weight<<endl;
-          }
+          } // for cnt
 	  particles[i].weight = particle_weight;
 
 	  /* We also want to store the weights as a separate top level vector */
