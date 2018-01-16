@@ -212,19 +212,18 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	    // Step-4: Update weight
 
 	    double weight_i; //Weight of the ith observation
-	    x_obs  = obs_t.x;
-	    y_obs  = obs_t.y;
 	    double gauss_norm = 1.0/(2* M_PI * sig_x *sig_y);
 
-	    double exponent   = (pow((x_obs - mu_x),2)/ (2 * sig_x * sig_x)) + (pow((y_obs - mu_y),2)/ (2 * sig_y * sig_y));
+	    double exponent   = (pow((obs_t.x - mu_x),2)/ (2 * sig_x * sig_x)) + (pow((obs_t.y - mu_y),2)/ (2 * sig_y * sig_y));
 
 	    weight_i = gauss_norm * pow(2.71828,-1*exponent);
 
 	    particle_weight = particle_weight * weight_i;
 
 	    if (i==0) {
-	      cout <<"theta" << theta<<"  x_obs = " <<observations[cnt].x << " "<< "mu_x ="<< mu_x <<"y_obs ="<<observations[cnt].y<<" mu_y = "<<mu_y<<endl;
-	      cout <<"   "<< "gauss_norm ="<<gauss_norm<<"  "<< "exponent = "<<exponent << "  " << "weight_i = "<<weight_i<<endl;
+	      cout <<"theta" << theta<<"  x_obs = " <<x_obs << " " << "y_obs ="<<y_obs<<"x_obs_t"<<obs_t.x<<"y_obs_t"<< obs_t.y<<endl;
+              
+	      cout << "mu_x ="<< mu_x <<" mu_y = "<<mu_y << " gauss_norm ="<<gauss_norm<< " exponent = "<<exponent << "  " << "weight_i = "<<weight_i<<endl;
 	      cout <<"   "<< "particle_weight ="<<particle_weight<<endl;
 	    }
 
